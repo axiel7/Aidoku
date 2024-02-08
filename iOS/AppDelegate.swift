@@ -137,6 +137,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
 
+        Task.detached {
+            try? await UNUserNotificationCenter.current().requestAuthorization(options: [.badge])
+        }
+
         UserDefaults.standard.set(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String, forKey: "currentVersion")
 
         return true

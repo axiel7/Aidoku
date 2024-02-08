@@ -6,6 +6,7 @@
 //
 
 import CoreData
+import UIKit
 
 class MangaManager {
 
@@ -273,5 +274,19 @@ extension MangaManager {
         }
 
         UserDefaults.standard.set(Date().timeIntervalSince1970, forKey: "Library.lastUpdated")
+    }
+}
+
+// MARK: - Notifications
+extension MangaManager {
+
+    func setUnreadCountBadge(_ count: Int) async {
+        if #available(iOS 16.0, *) {
+            try? await UNUserNotificationCenter.current().setBadgeCount(count)
+        } else {
+            await MainActor.run {
+                UIApplication.shared.applicationIconBadgeNumber = count
+            }
+        }
     }
 }

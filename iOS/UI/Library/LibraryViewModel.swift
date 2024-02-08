@@ -108,6 +108,7 @@ class LibraryViewModel {
     func loadLibrary() async {
         var pinnedManga: [MangaInfo] = []
         var manga: [MangaInfo] = []
+        var unreadMangaCount: Int = 0
 
         var checkDownloads = false
         var excludeDownloads = false
@@ -143,6 +144,9 @@ class LibraryViewModel {
                     mangaId: mangaObject.id,
                     context: context
                 )
+                if unreadCount > 0 {
+                    unreadMangaCount += 1
+                }
 
                 let info = MangaInfo(
                     mangaId: mangaObject.id,
@@ -189,6 +193,8 @@ class LibraryViewModel {
                 }
             }
         }
+
+        await MangaManager.shared.setUnreadCountBadge(unreadMangaCount)
 
         if checkDownloads {
             let pinnedMangaCopy = pinnedManga
