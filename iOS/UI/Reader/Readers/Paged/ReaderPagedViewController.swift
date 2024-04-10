@@ -344,7 +344,9 @@ extension ReaderPagedViewController: UIPageViewControllerDelegate {
             }
 
         case viewModel.pages.count + 1: // next chapter transition page
-            delegate?.setCurrentPage(viewModel.pages.count)
+            if currentPage < viewModel.pages.count {
+                delegate?.setCurrentPage(viewModel.pages.count)
+            }
             // preload next
             if let nextChapter = nextChapter {
                 Task {
